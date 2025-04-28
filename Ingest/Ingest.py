@@ -4,16 +4,6 @@ import asyncio
 from enum import Enum
 from typing import TypedDict, Optional
 from pinecone import PineconeAsyncio, ServerlessSpec
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-
-if not PINECONE_API_KEY:
-    raise ValueError("Pinecone API key not set.")
-
 
 class DeletionProtection(Enum):
     DISABLED = "disabled"
@@ -32,18 +22,7 @@ class PineconeConfig(TypedDict):
 
 
 class Ingest:
-    def __init__(
-        self,
-        # file_configs={
-        #   "file_name": "",
-        #   "file_type": "pdf",
-        #   "start_on_page": 0,
-        #   "end_on_page": None,
-        # },
-        # pinecone_configs={}
-        configs,
-    ):
-        print(self)
+    def __init__(self,configs,):
         self.configs = configs
         self.file_configs = configs["file_configs"]
         self.pinecone_configs = configs["pinecone_configs"]
