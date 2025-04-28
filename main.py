@@ -4,6 +4,7 @@ from pinecone import Pinecone, PineconeAsyncio, ServerlessSpec
 from enum import Enum
 from typing import TypedDict, Optional
 from PineconeRag import PineconeRag
+import asyncio
 
 load_dotenv()
 
@@ -12,10 +13,17 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 if not PINECONE_API_KEY:
     raise ValueError("Pinecone API key not set.")
 
-if __name__ == "__main__":
+async def test():
     rag = PineconeRag(
         configs={
-            # (required)
+          "file_configs": {
+            "file_name": "",
+            "file_type": "pdf",
+            "start_on_page": 0,
+            "end_on_page": None
+          },
+          "pinecone_configs": {
+             # (required)
             "api_key": PINECONE_API_KEY,
             # (required)
             # use an existing index or create a new index
@@ -45,6 +53,29 @@ if __name__ == "__main__":
             # (optional)
             # used when creating a new index
             # defaults: {"environment": "development"}
-            "tags": {"environment": "development"},
+            "tags": {"environment": "development"}, 
+          }  
         }
     )
+    file_name = "World-Education-Statistics-2024.pdf"
+    root_dir = os.path.dirname(__file__)
+    pdf_path = os.path.join(root_dir, "data_files",file_name)
+    print(pdf_path)
+    print(pdf_path)
+    print(pdf_path)
+    print(pdf_path)
+    await rag.embedder(
+      file_path=pdf_path, 
+      configs={
+        "file_name": "",
+        "file_type": "pdf",
+        "start_on_page": 0,
+        "end_on_page": None
+      }
+    )
+
+    # answer = rag.retrieval("What is the average income in state?")
+
+if __name__ == "__main__":
+    asyncio.run(test())
+
