@@ -4,9 +4,9 @@ from pinecone import Pinecone, PineconeAsyncio, ServerlessSpec
 from enum import Enum
 from pprint import pprint
 from typing import TypedDict, Optional
-from Embedder.CSVProcessor import CSVProcessor
-from Embedder.PDFProcessor import PDFProcessor
-from Embedder.Embedder import Embedder
+from Ingest.CSVProcessor import CSVProcessor
+from Ingest.PDFProcessor import PDFProcessor
+from Ingest.Ingest import Ingest
 from Retrieval.Retrieval import Retrieval
 
 load_dotenv()
@@ -31,7 +31,7 @@ class PineconeRag:
         self.configs = configs
         self.file_configs = configs["file_configs"]
         self.pinecone_configs = configs["pinecone_configs"]
-        self.Embedder = Embedder(configs)
+        self.Embedder = Ingest(configs)
         self.Retrieval = Retrieval(configs)
 
         if not self.file_configs["file_type"].lower() in supported_file_types:

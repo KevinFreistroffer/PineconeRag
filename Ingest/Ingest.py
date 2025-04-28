@@ -31,7 +31,7 @@ class PineconeConfig(TypedDict):
     tags: Optional[dict]
 
 
-class Embedder:
+class Ingest:
     def __init__(
         self,
         # file_configs={
